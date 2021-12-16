@@ -20,8 +20,8 @@ function operate(operation, a, b) {
 function evaluate(string) {
     let output = string
     for (let symbol in symbols) {
-        const regex = new RegExp(`([\\d](\\.[\\d])*)+ [\\${symbol}] ([\\d](\\.[\\d])*)+`, "g")
-        const expressions = output.match(regex)
+        const re = new RegExp(`([\-]?[\\d](\\.[\\d])*)+ [\\${symbol}] ([\-]?[\\d](\\.[\\d])*)+`, "g")
+        const expressions = output.match(re)
 
         if (expressions !== null) {
             expressions.forEach(expression => {
@@ -37,18 +37,35 @@ function evaluate(string) {
 
 const display = document.querySelector("#display")
 
-const clearButton = document.querySelector("#clear")
-clearButton.addEventListener("click", () => display.value = "")
+document.querySelector("#clear")
+    .addEventListener("click", () => display.value = "")
 
-const equalsButton = document.querySelector("#equals")
-equalsButton.addEventListener("click", () => display.value = evaluate(display.value))
+document.querySelector("#negate")
+    .addEventListener("click", () => {
+        const exp = display.value.split(" ").at(-1)
+        const negated = exp.includes("-") ? exp.substring(1) : `-${exp}`
 
-const valueButtons = document.querySelectorAll("button.value")
-valueButtons.forEach(button => {
-    button.addEventListener("click", () => display.value += button.value)
-})
+        display.value = display.value.replace(exp, negated)
+    })
 
-const operatorButtons = document.querySelectorAll("button.operator")
-operatorButtons.forEach(button => {
-    button.addEventListener("click", () => display.value += ` ${button.value} `)
-})
+document.querySelector("#decimal")
+    .addEventListener("click", () => {
+        const exp = display.value.split(" ").at(-1)
+
+        if(!exp.includes(".")) {
+            display.value += "."
+        }
+    })
+
+document.querySelector("#equals")
+    .addEventListener("click", () => display.value = evaluate(display.value))
+
+document.querySelectorAll("button.value")
+    .forEach(button => {
+        button.addEventListener("click", () => display.value += button.value)
+    })
+
+document.querySelectorAll("button.operator")
+    .forEach(button => {
+        button.addEventListener("click", () => display.value += ` ${button.value} `)
+    })
