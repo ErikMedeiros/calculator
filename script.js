@@ -42,10 +42,20 @@ const display = document.querySelector("#display")
 
 document.querySelector("#clear").addEventListener("click", () => (display.value = ""))
 
+document.querySelector("#backspace").addEventListener("click", () => {
+	if (display.value === "Invalid Expression") {
+		display.value = ""
+		return
+	}
+
+	const exp = display.value
+	display.value = exp.at(-1) === " " ? exp.slice(0, -3) : exp.slice(0, -1)
+})
+
 document.querySelector("#negate").addEventListener("click", () => {
 	const exp = display.value.split(" ").at(-1)
 
-	if (exp.match(/^\-?[\d]+(\.?[\d]+)?$/) != null) {
+	if (exp.match(/^\-?[\d]+(\.?[\d]+)?$/) !== null) {
 		const toggle = exp.includes("-") ? exp.slice(1) : `-${exp}`
 		display.value = display.value.replace(new RegExp(`${exp}$`), toggle)
 	}
@@ -54,7 +64,7 @@ document.querySelector("#negate").addEventListener("click", () => {
 document.querySelector("#decimal").addEventListener("click", () => {
 	const exp = display.value.split(" ").at(-1)
 
-	if (exp.match(/^\-?[\d]+\.?$/) != null) {
+	if (exp.match(/^\-?[\d]+\.?$/) !== null) {
 		const toggle = exp.includes(".") ? exp.slice(0, -1) : `${exp}.`
 		display.value = display.value.replace(new RegExp(`${exp}$`), toggle)
 	}
@@ -90,7 +100,7 @@ document.querySelectorAll("button.operator").forEach(button => {
 		}
 
 		const exp = display.value.split(" ").at(-1)
-		if (exp.match(/^\-?[\d]+(\.?[\d]+)?$/) != null) {
+		if (exp.match(/^\-?[\d]+(\.?[\d]+)?$/) !== null) {
 			display.value += ` ${button.value} `
 		}
 	})
