@@ -9,8 +9,8 @@ const operations = {
 const symbols = {
 	"/": "divide",
 	"*": "multiply",
-	"+": "add",
 	"-": "subtract",
+	"+": "add",
 }
 
 function operate(operation, a, b) {
@@ -20,13 +20,9 @@ function operate(operation, a, b) {
 function evaluate(string) {
 	let output = string
 	for (let symbol in symbols) {
-		const re = new RegExp(
-			`\\-?[\\d]+(\\.?[\\d]+)? \\${symbol} \\-?[\\d]+(\\.?[\\d]+)?`,
-			"g"
-		)
-		const expressions = output.match(re)
+		const re = new RegExp(`-?\\d+(?:\\.?\\d+)? \\${symbol} -?\\d+(?:\\.?\\d+)?`, "g")
 
-		if (expressions !== null) {
+		while ((expressions = output.match(re)) !== null) {
 			expressions.forEach(expression => {
 				;[a, operation, b] = expression.split(" ")
 				const result = operate(symbols[operation], Number(a), Number(b))
@@ -55,7 +51,7 @@ document.querySelector("#backspace").addEventListener("click", () => {
 document.querySelector("#negate").addEventListener("click", () => {
 	const exp = display.value.split(" ").at(-1)
 
-	if (exp.match(/^\-?[\d]+(\.?[\d]+)?$/) !== null) {
+	if (exp.match(/^-?\d+(?:\.\d+)?$/) !== null) {
 		const toggle = exp.includes("-") ? exp.slice(1) : `-${exp}`
 		display.value = display.value.replace(new RegExp(`${exp}$`), toggle)
 	}
@@ -64,9 +60,8 @@ document.querySelector("#negate").addEventListener("click", () => {
 document.querySelector("#decimal").addEventListener("click", () => {
 	const exp = display.value.split(" ").at(-1)
 
-	if (exp.match(/^\-?[\d]+\.?$/) !== null) {
-		const toggle = exp.includes(".") ? exp.slice(0, -1) : `${exp}.`
-		display.value = display.value.replace(new RegExp(`${exp}$`), toggle)
+	if (exp.match(/^-?\d+$/) !== null) {
+		display.value += "."
 	}
 })
 
@@ -100,7 +95,7 @@ document.querySelectorAll("button.operator").forEach(button => {
 		}
 
 		const exp = display.value.split(" ").at(-1)
-		if (exp.match(/^\-?[\d]+(\.?[\d]+)?$/) !== null) {
+		if (exp.match(/^-?\d+(?:\.\d+)?$/) !== null) {
 			display.value += ` ${button.value} `
 		}
 	})
