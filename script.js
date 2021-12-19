@@ -105,3 +105,13 @@ document.querySelectorAll("button.operator").forEach(button => {
 		}
 	})
 })
+
+document.querySelectorAll("#main-container button").forEach(button => {
+	const key = button.getAttribute("key") || button.getAttribute("value")
+
+	document.addEventListener("keydown", event => {
+		if (key === event.key.toLowerCase()) {
+			button.click()
+		}
+	})
+})
