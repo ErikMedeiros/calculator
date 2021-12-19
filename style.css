@@ -1,0 +1,57 @@
+* {
+	font-size: xx-large;
+	color: white;
+}
+
+body {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: black;
+	height: 100vh;
+	margin: 0px;
+}
+
+#main-container {
+	display: flex;
+	flex-direction: column;
+	height: 500px;
+	width: 500px;
+	border: 2px solid darkgray;
+}
+
+#display {
+	text-align: right;
+	flex-grow: 1;
+	background-color: black;
+	font-size: xxx-large;
+	border: 0;
+}
+
+.row {
+	display: flex;
+	flex: 1;
+}
+
+.row button {
+	flex-grow: 1;
+	flex-basis: 25px;
+	border: 1px solid black;
+}
+
+.row .bigger {
+	flex-grow: 2;
+	flex-basis: 50px;
+}
+
+.value {
+	background-color: dimgray;
+}
+
+.operator {
+	background-color: orange;
+}
+
+.modifiers {
+	background-color: darkgray;
+}
