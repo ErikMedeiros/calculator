@@ -35,8 +35,12 @@ function evaluate(string) {
 }
 
 const display = document.querySelector("#display")
+let answer = ""
 
-document.querySelector("#clear").addEventListener("click", () => (display.value = ""))
+document.querySelector("#clear").addEventListener("click", () => {
+	display.value = ""
+	answer = ""
+})
 
 document.querySelector("#backspace").addEventListener("click", () => {
 	if (display.value === "Invalid Expression") {
@@ -75,11 +79,12 @@ document.querySelector("#equals").addEventListener("click", () => {
 	const invalidExp = result.split(" ").length !== 1 || result === "Infinity"
 
 	display.value = invalidExp ? "Invalid Expression" : result
+	answer = display.value
 })
 
 document.querySelectorAll("button.value").forEach(button => {
 	button.addEventListener("click", () => {
-		if (display.value === "Invalid Expression") {
+		if (display.value === answer) {
 			display.value = ""
 		}
 
